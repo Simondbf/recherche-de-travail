@@ -276,6 +276,8 @@ function DashboardContent() {
             onClick={() => {
               setSelectedApp(null);
               setIsFormOpen(false);
+              setSearch('');
+              setActiveFilter('all');
             }}
           >
             <div className="p-2 bg-black dark:bg-white rounded-xl text-white dark:text-black group-hover:scale-105 transition-transform">
