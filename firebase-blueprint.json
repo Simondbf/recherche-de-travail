@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "candidature": {
+      "title": "Job Application",
+      "description": "Represents an individual job search target and recruiting steps",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "company": { "type": "string" },
+        "status": { "type": "string", "enum": ["to_apply", "applied", "interviewing", "offer", "rejected"] },
+        "dateApplied": { "type": "string" },
+        "location": { "type": "string" },
+        "url": { "type": "string" },
+        "salary": { "type": "string" },
+        "contactName": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "company", "status", "createdAt", "updatedAt"]
+    },
+    "userStat": {
+      "title": "User Statistics",
+      "description": "Public aggregation of job applications count for friends dashboard",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "totalApplied": { "type": "number" },
+        "totalInterviewing": { "type": "number" },
+        "totalOffers": { "type": "number" },
+        "lastActive": { "type": "string" }
+      },
+      "required": ["userId", "displayName", "totalApplied", "totalInterviewing", "totalOffers", "lastActive"]
+    }
+  },
+  "firestore": {
+    "/applications/{applicationId}": {
+      "schema": "candidature",
+      "description": "All job applications across logged in users"
+    },
+    "/stats/{userId}": {
+      "schema": "userStat",
+      "description": "Activity statistics for showing status of the search among friends"
+    }
+  }
+}
