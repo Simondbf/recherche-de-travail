@@ -212,7 +212,8 @@ export default function ApplicationDetails({ application, onClose, onEdit }: App
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(application.location)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-blue-600 hover:underline transition-colors"
+                      title="Ouvrir dans Google Maps"
+                      className="text-blue-600 hover:text-blue-800 underline decoration-blue-600/30 transition-colors"
                     >
                       {application.location}
                     </a>

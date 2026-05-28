@@ -7,7 +7,7 @@ import { JobApplication, ApplicationStatus } from './types';
 import { 
   Plus, Search, SlidersHorizontal, LogOut, Sparkles, Briefcase, 
   MapPin, Landmark, Calendar, Grid, Activity, ArrowRight, Github,
-  Sun, Moon, Trash2
+  Sun, Moon, Trash2, Settings
 } from 'lucide-react';
 
 function DashboardContent() {
@@ -27,6 +27,7 @@ function DashboardContent() {
   const [selectedApp, setSelectedApp] = useState<JobApplication | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formEditApp, setFormEditApp] = useState<JobApplication | null>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Theme support
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
@@ -270,8 +271,14 @@ function DashboardContent() {
       {/* 1. Header Banner */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-40 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-black dark:bg-white rounded-xl text-white dark:text-black">
+          <div 
+            className="flex items-center space-x-3 cursor-pointer group"
+            onClick={() => {
+              setSelectedApp(null);
+              setIsFormOpen(false);
+            }}
+          >
+            <div className="p-2 bg-black dark:bg-white rounded-xl text-white dark:text-black group-hover:scale-105 transition-transform">
               <Briefcase className="w-5 h-5 stroke-[2]" />
             </div>
             <div>
@@ -280,16 +287,8 @@ function DashboardContent() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <button
-               onClick={() => setIsDarkMode(!isDarkMode)}
-               className="p-2 text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all cursor-pointer select-none"
-               title="Changer de thème"
-             >
-               {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
-
-            <div className="flex items-center space-x-2 text-right border-l border-gray-100 dark:border-gray-800 pl-4">
+          <div className="flex items-center space-x-4 relative">
+            <div className="flex items-center space-x-2 text-right">
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 hidden sm:block">{user.displayName}</span>
               <img 
                 src={user.photoURL || `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.uid}`}
@@ -300,23 +299,52 @@ function DashboardContent() {
             </div>
             
             <button 
-              onClick={logout}
-              title="Déconnexion"
+              onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+              title="Paramètres"
               className="p-2 text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all cursor-pointer select-none"
             >
-              <LogOut className="w-4 h-4" />
+              <Settings className="w-4 h-4" />
             </button>
-            <button 
-              onClick={() => {
-                if(window.confirm("Êtes-vous sûr de vouloir supprimer votre compte et toutes vos données ? Cette action est irréversible.")) {
-                  deleteAccountSovereign();
-                }
-              }}
-              title="Supprimer mon compte"
-              className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all cursor-pointer select-none"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+
+            {isSettingsOpen && (
+              <div className="absolute top-12 right-0 w-56 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl shadow-lg p-2 z-50 animate-fade-in">
+                <div className="px-3 py-2 border-b border-gray-100 dark:border-gray-800 mb-1">
+                  <span className="block text-xs font-bold text-gray-900 dark:text-gray-100">{user.email}</span>
+                  <span className="block text-[10px] text-gray-500 dark:text-gray-400">{isDemoMode ? "Mode Démo" : "Compte Hébergé"}</span>
+                </div>
+                
+                <button
+                  onClick={() => { setIsDarkMode(!isDarkMode); setIsSettingsOpen(false); }}
+                  className="w-full flex items-center px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors text-left"
+                >
+                  {isDarkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                  {isDarkMode ? "Passer en Mode Clair" : "Passer en Mode Sombre"}
+                </button>
+
+                <button
+                  onClick={() => { logout(); setIsSettingsOpen(false); }}
+                  className="w-full flex items-center px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors text-left"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Déconnexion
+                </button>
+
+                <div className="border-t border-gray-100 dark:border-gray-800 mt-1 pt-1">
+                  <button
+                    onClick={() => {
+                      if(window.confirm("Êtes-vous sûr de vouloir supprimer votre compte et toutes vos données ? Cette action est irréversible.")) {
+                        deleteAccountSovereign();
+                      }
+                      setIsSettingsOpen(false);
+                    }}
+                    className="w-full flex items-center px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-left"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Supprimer mon compte
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -365,7 +393,7 @@ function DashboardContent() {
           </div>
 
           {/* Search bar and filters panel */}
-          <div className="space-y-3 bg-white border border-gray-100 rounded-2xl p-4 shadow-xs">
+          <div className="space-y-3 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 shadow-xs transition-colors duration-300">
             <div className="relative">
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-2.5" />
               <input
@@ -373,11 +401,11 @@ function DashboardContent() {
                 placeholder="Rechercher un poste, entreprise..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-slate-50 border border-gray-100 rounded-xl py-2 pl-9 pr-4 text-xs focus:outline-none focus:border-gray-300 focus:bg-white transition-colors"
+                className="w-full bg-slate-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl py-2 pl-9 pr-4 text-xs dark:text-gray-100 focus:outline-none focus:border-gray-300 dark:focus:border-gray-500 focus:bg-white dark:focus:bg-gray-950 transition-colors"
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-gray-50">
+            <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-gray-50 dark:border-gray-800">
               {[
                 { id: 'all', label: 'Tout' },
                 { id: 'to_apply', label: 'À postuler' },
@@ -388,10 +416,10 @@ function DashboardContent() {
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id as any)}
-                  className={`text-[10.5px] font-medium px-2.5 py-1.5 rounded-lg select-none cursor-pointer ${
+                  className={`text-[10.5px] font-medium px-2.5 py-1.5 rounded-lg select-none cursor-pointer transition-colors ${
                     activeFilter === filter.id 
-                      ? 'bg-black text-white' 
-                      : 'bg-slate-50 text-gray-500 hover:bg-slate-100'
+                      ? 'bg-black dark:bg-white text-white dark:text-black' 
+                      : 'bg-slate-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   {filter.label}
@@ -403,10 +431,10 @@ function DashboardContent() {
           {/* Listings loop */}
           <div className="space-y-3 overflow-y-auto max-h-[50vh] pr-1">
             {filteredApps.length === 0 ? (
-              <div className="text-center py-12 p-6 bg-white border border-dashed border-gray-200 rounded-2xl space-y-3">
-                <Grid className="w-8 h-8 text-gray-300 mx-auto" />
+              <div className="text-center py-12 p-6 bg-white dark:bg-gray-900 border border-dashed border-gray-200 dark:border-gray-800 rounded-2xl space-y-3 transition-colors duration-300">
+                <Grid className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto" />
                 <div>
-                  <h4 className="text-xs font-bold text-gray-900">Aucune candidature correspondante</h4>
+                  <h4 className="text-xs font-bold text-gray-900 dark:text-gray-100">Aucune candidature correspondante</h4>
                   <p className="text-[11px] text-gray-400 mt-0.5">Cliquez sur « Nouveau Job » pour démarrer votre suivi individuel.</p>
                 </div>
               </div>
@@ -415,24 +443,24 @@ function DashboardContent() {
                 <div
                   key={app.id}
                   onClick={() => setSelectedApp(app)}
-                  className={`p-4 bg-white border rounded-2xl cursor-pointer text-left transition-all ${
+                  className={`p-4 bg-white dark:bg-gray-900 border rounded-2xl cursor-pointer text-left transition-all ${
                     selectedApp?.id === app.id
-                      ? 'border-black ring-1 ring-black shadow-sm'
-                      : 'border-gray-100 hover:border-gray-200 hover:translate-x-1 shadow-xs'
+                      ? 'border-black dark:border-white ring-1 ring-black dark:ring-white shadow-sm'
+                      : 'border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 hover:translate-x-1 shadow-xs'
                   }`}
                 >
                   <div className="flex justify-between items-start gap-2">
                     <div>
-                      <h3 className="text-sm font-bold text-gray-950 font-sans tracking-tight">{app.title}</h3>
-                      <p className="text-xs text-gray-500 font-medium mt-0.5">{app.company}</p>
+                      <h3 className="text-sm font-bold text-gray-950 dark:text-white font-sans tracking-tight">{app.title}</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">{app.company}</p>
                     </div>
 
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      app.status === 'to_apply' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
-                      app.status === 'applied' ? 'bg-blue-50 text-blue-700 border border-blue-100' :
-                      app.status === 'interviewing' ? 'bg-purple-50 text-purple-700 border border-purple-100' :
-                      app.status === 'offer' ? 'bg-emerald-50 text-emerald-800 border border-emerald-100 font-semibold' :
-                      'bg-gray-100 text-gray-600'
+                      app.status === 'to_apply' ? 'bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 border border-amber-100 dark:border-amber-900/60' :
+                      app.status === 'applied' ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-900/60' :
+                      app.status === 'interviewing' ? 'bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-400 border border-purple-100 dark:border-purple-900/60' :
+                      app.status === 'offer' ? 'bg-emerald-50 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/60 font-semibold' :
+                      'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-transparent'
                     }`}>
                       {app.status === 'to_apply' ? 'À postuler' :
                        app.status === 'applied' ? 'Postulé' :

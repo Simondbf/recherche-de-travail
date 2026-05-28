@@ -179,10 +179,10 @@ export default function ApplicationForm({ application, onClose }: ApplicationFor
         {/* Location & Income */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-gray-600 tracking-wider uppercase mb-2">Localisation / Bureau</label>
+            <label className="block text-xs font-semibold text-gray-600 tracking-wider uppercase mb-2">Adresse / Bureau (pour Google Maps)</label>
             <input 
               type="text"
-              placeholder="Ex: Paris (Hybride), Remote..."
+              placeholder="Ex: 15 Rue de la Paix, Paris..."
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="w-full bg-gray-50/50 border border-gray-100 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:border-gray-300 focus:bg-white transition-colors"
