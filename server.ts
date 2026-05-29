@@ -445,3 +445,4 @@ initializeUi().catch((err) => {
   console.error("Vite/Express initialization failed: ", err);
 });
 
+// Déclencheur de synchronisation pour forcer GitHub à prendre ce fichier complet
