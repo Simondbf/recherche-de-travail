@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FirebaseProvider, useFirebase } from './components/FirebaseProvider';
+import { AuthProvider, useAuth } from './components/AuthProvider';
 import ApplicationForm from './components/ApplicationForm';
 import ApplicationDetails from './components/ApplicationDetails';
 import FriendsStatsView from './components/FriendsStatsView';
@@ -21,7 +21,7 @@ function DashboardContent() {
     applications, 
     isDemoMode,
     triggerDemoMode 
-  } = useFirebase();
+  } = useAuth();
 
   // Navigation and focus states
   const [selectedApp, setSelectedApp] = useState<JobApplication | null>(null);
@@ -555,9 +555,9 @@ function DashboardContent() {
 
 export default function App() {
   return (
-    <FirebaseProvider>
+    <AuthProvider>
       <DashboardContent />
-    </FirebaseProvider>
+    </AuthProvider>
   );
 }
 

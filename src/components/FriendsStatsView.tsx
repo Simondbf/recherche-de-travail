@@ -1,8 +1,8 @@
-import { useFirebase } from './FirebaseProvider';
+import { useAuth } from './AuthProvider';
 import { Users, Award, TrendingUp, HelpCircle, Laptop } from 'lucide-react';
 
 export default function FriendsStatsView() {
-  const { friendsStats, isDemoMode } = useFirebase();
+  const { friendsStats, isDemoMode } = useAuth();
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm space-y-6 animate-fade-in">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { JobApplication, ApplicationStatus } from '../types';
-import { useFirebase } from './FirebaseProvider';
+import { useAuth } from './AuthProvider';
 import { 
   Building, MapPin, Landmark, Link, User, Users, Mail, Sparkles, ChevronLeft, 
   Trash2, FileText, Calendar, Edit, Copy, Check, MessageSquareCode, Award
@@ -13,7 +13,7 @@ interface ApplicationDetailsProps {
 }
 
 export default function ApplicationDetails({ application, onClose, onEdit }: ApplicationDetailsProps) {
-  const { deleteJobApplication, updateJobApplication } = useFirebase();
+  const { deleteJobApplication, updateJobApplication } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'notes' | 'ai'>('overview');
   
   // Custom states for Gemini

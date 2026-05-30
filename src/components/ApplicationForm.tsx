@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useFirebase } from './FirebaseProvider';
+import { useAuth } from './AuthProvider';
 import { JobApplication, ApplicationStatus, JobContact } from '../types';
 import { X, Briefcase, Building, Landmark, Link2, User, Mail, Plus, Check, Trash2 } from 'lucide-react';
 
@@ -9,7 +9,7 @@ interface ApplicationFormProps {
 }
 
 export default function ApplicationForm({ application, onClose }: ApplicationFormProps) {
-  const { addJobApplication, updateJobApplication } = useFirebase();
+  const { addJobApplication, updateJobApplication } = useAuth();
   const [loading, setLoading] = useState(false);
 
   // Form Fields
