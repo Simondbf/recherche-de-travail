@@ -96,153 +96,158 @@ function DashboardContent() {
     };
 
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-white flex flex-col md:flex-row items-center justify-center relative overflow-hidden">
         {/* Abstract background blur assets */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-50/40 rounded-full blur-3xl -z-10 animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-50/30 rounded-full blur-3xl -z-10" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-50/40 rounded-full blur-3xl -z-10 animate-pulse hidden md:block" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-50/30 rounded-full blur-3xl -z-10 hidden md:block" />
 
-        <div className="max-w-md w-full space-y-8 animate-fade-in relative z-10">
-          <div className="flex flex-col items-center text-center">
-            <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center shadow-sm">
-              <Briefcase className="w-10 h-10 text-black stroke-[1.5]" />
-            </div>
-            <h1 className="text-2xl font-extrabold text-gray-950 font-sans tracking-tight mt-6">
-              Suivi de Recherche d’Emploi
-            </h1>
-            <p className="text-xs text-gray-500 mt-2 font-sans max-w-sm leading-relaxed">
-              Une plateforme ultra-sécurisée et <strong>hébergée de façon souveraine en Europe</strong> pour piloter vos recrutements et collaborer avec vos amis en toute confidentialité.
-            </p>
-          </div>
-
-          {!isSettingUpDemo ? (
-            <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
-              <div className="flex border-b border-gray-100 pb-3 mb-2">
-                <button
-                  onClick={() => { setIsRegisterMode(false); setAuthError(''); }}
-                  className={`flex-1 text-center py-1.5 text-xs font-bold transition-all ${!isRegisterMode ? 'text-black border-b-2 border-black' : 'text-gray-400 hover:text-gray-600'}`}
-                >
-                  Se Connecter
-                </button>
-                <button
-                  onClick={() => { setIsRegisterMode(true); setAuthError(''); }}
-                  className={`flex-1 text-center py-1.5 text-xs font-bold transition-all ${isRegisterMode ? 'text-black border-b-2 border-black' : 'text-gray-400 hover:text-gray-600'}`}
-                >
-                  Créer un compte
-                </button>
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 md:p-16 lg:p-24 relative z-10">
+          <div className="max-w-md w-full space-y-8 animate-fade-in text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start">
+              <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 inline-flex items-center justify-center shadow-sm">
+                <Briefcase className="w-10 h-10 text-black stroke-[1.5]" />
               </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-950 font-sans tracking-tight mt-6">
+                Suivi de Recherche d’Emploi
+              </h1>
+              <p className="text-sm md:text-base text-gray-500 mt-4 font-sans leading-relaxed">
+                Une plateforme ultra-sécurisée et <strong>hébergée de façon souveraine en Europe</strong> pour piloter vos recrutements et collaborer avec vos amis en toute confidentialité.
+              </p>
+            </div>
+          </div>
+        </div>
 
-              {authError && (
-                <div className="p-3 text-xs bg-red-50 text-red-600 rounded-lg border border-red-100 font-sans">
-                  {authError}
+        <div className="w-full md:w-1/2 flex items-center justify-center p-8 relative z-10 bg-slate-50/50 md:bg-transparent md:min-h-screen">
+          <div className="max-w-md w-full space-y-6 animate-fade-in relative z-10">
+            {!isSettingUpDemo ? (
+              <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm space-y-5">
+                <div className="flex border-b border-gray-100 pb-3 mb-2">
+                  <button
+                    onClick={() => { setIsRegisterMode(false); setAuthError(''); }}
+                    className={`flex-1 text-center py-1.5 text-sm md:text-base font-bold transition-all ${!isRegisterMode ? 'text-black border-b-2 border-black' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    Se Connecter
+                  </button>
+                  <button
+                    onClick={() => { setIsRegisterMode(true); setAuthError(''); }}
+                    className={`flex-1 text-center py-1.5 text-sm md:text-base font-bold transition-all ${isRegisterMode ? 'text-black border-b-2 border-black' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    Créer un compte
+                  </button>
                 </div>
-              )}
 
-              <form onSubmit={handleAuthSubmit} className="space-y-4 text-left">
-                {isRegisterMode && (
-                  <div>
-                    <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1.5">Votre Prénom / Nom</label>
-                    <input
-                      type="text"
-                      placeholder="Ex: Simon, Justine..."
-                      value={authName}
-                      onChange={(e) => setAuthName(e.target.value)}
-                      className="w-full bg-slate-50 border border-gray-100 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
-                      required
-                    />
+                {authError && (
+                  <div className="p-3 text-sm flex justify-center bg-red-50 text-red-600 rounded-lg border border-red-100 font-sans">
+                    {authError}
                   </div>
                 )}
 
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1.5">Adresse Email</label>
+                <form onSubmit={handleAuthSubmit} className="space-y-4 text-left">
+                  {isRegisterMode && (
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-gray-400 tracking-wider mb-1.5">Votre Prénom / Nom</label>
+                      <input
+                        type="text"
+                        placeholder="Ex: Simon, Justine..."
+                        value={authName}
+                        onChange={(e) => setAuthName(e.target.value)}
+                        className="w-full bg-slate-50 border border-gray-100 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs uppercase font-bold text-gray-400 tracking-wider mb-1.5">Adresse Email</label>
+                    <input
+                      type="email"
+                      placeholder="nom@exemple.com"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      className="w-full bg-slate-50 border border-gray-100 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs uppercase font-bold text-gray-400 tracking-wider mb-1.5">Mot de Passe</label>
+                    <input
+                      type="password"
+                      placeholder="Votre mot de passe secret"
+                      value={authPassword}
+                      onChange={(e) => setAuthPassword(e.target.value)}
+                      className="w-full bg-slate-50 border border-gray-100 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full bg-black hover:bg-gray-800 text-white py-3 md:py-3.5 rounded-xl text-sm font-semibold shadow-sm transition-colors cursor-pointer select-none disabled:opacity-50 mt-2"
+                  >
+                    {authLoading ? "Synchronisation..." : isRegisterMode ? "Créer mon espace européen sécurisé" : "Accéder à mes candidatures"}
+                  </button>
+                </form>
+
+                <div className="pt-4 border-t border-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
+                  <span className="text-xs text-gray-400 font-sans">100% hébergé en Europe</span>
+                  <button
+                    onClick={() => setIsSettingUpDemo(true)}
+                    className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer transition-colors"
+                  >
+                    Tester sans s'inscrire (Démo) →
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="p-6 md:p-8 bg-gray-50 rounded-2xl border border-gray-100 text-left space-y-4 animate-slide-in">
+                <h3 className="text-base font-bold text-gray-900 font-sans">Entrez votre prénom</h3>
+                <p className="text-sm text-gray-500 font-sans leading-relaxed">
+                  Le mode Démo stocke vos données de manière sécurisée sur votre navigateur actuel (localStorage) sans synchronisation cloud.
+                </p>
+                
+                <div className="space-y-2">
                   <input
-                    type="email"
-                    placeholder="nom@exemple.com"
-                    value={authEmail}
-                    onChange={(e) => setAuthEmail(e.target.value)}
-                    className="w-full bg-slate-50 border border-gray-100 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
-                    required
+                    type="text"
+                    placeholder="Simon, Alex, Justine..."
+                    value={customNameInput}
+                    onChange={(e) => setCustomNameInput(e.target.value)}
+                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-gray-400 font-sans"
+                    autoFocus
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1.5">Mot de Passe</label>
-                  <input
-                    type="password"
-                    placeholder="Votre mot de passe secret"
-                    value={authPassword}
-                    onChange={(e) => setAuthPassword(e.target.value)}
-                    className="w-full bg-slate-50 border border-gray-100 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-gray-300 focus:bg-white transition-all font-sans"
-                    required
-                  />
+                <div className="flex gap-2 justify-end pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsSettingUpDemo(false)}
+                    className="text-sm font-semibold px-4 py-2 text-gray-500 hover:text-gray-700 cursor-pointer"
+                  >
+                    Retour
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (customNameInput.trim()) {
+                        triggerDemoMode(customNameInput.trim());
+                      } else {
+                        triggerDemoMode("Simon Deboeuf");
+                      }
+                    }}
+                    className="text-sm font-semibold px-5 py-2.5 bg-black text-white hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
+                  >
+                    Commencer
+                  </button>
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={authLoading}
-                  className="w-full bg-black hover:bg-gray-800 text-white py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-colors cursor-pointer select-none disabled:opacity-50 mt-2"
-                >
-                  {authLoading ? "Synchronisation..." : isRegisterMode ? "Créer mon espace européen sécurisé" : "Accéder à mes candidatures"}
-                </button>
-              </form>
-
-              <div className="pt-3 border-t border-gray-50 flex items-center justify-between">
-                <span className="text-[10px] text-gray-400 font-sans">100% hébergé en Europe</span>
-                <button
-                  onClick={() => setIsSettingUpDemo(true)}
-                  className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer transition-colors"
-                >
-                  Tester sans s'inscrire (Démo) →
-                </button>
               </div>
+            )}
+
+            <div className="flex justify-center items-center text-xs text-gray-400 font-sans pt-4">
+              <span className="flex items-center gap-1 text-center">
+                🛡️ Isolation absolue des données
+              </span>
             </div>
-          ) : (
-            <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100 text-left space-y-4 animate-slide-in">
-              <h3 className="text-sm font-bold text-gray-900 font-sans">Entrez votre prénom</h3>
-              <p className="text-xs text-gray-500 font-sans leading-relaxed">
-                Le mode Démo stocke vos données de manière sécurisée sur votre navigateur actuel (localStorage) sans synchronisation cloud.
-              </p>
-              
-              <div className="space-y-2">
-                <input
-                  type="text"
-                  placeholder="Simon, Alex, Justine..."
-                  value={customNameInput}
-                  onChange={(e) => setCustomNameInput(e.target.value)}
-                  className="w-full bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm focus:outline-none focus:border-gray-400 font-sans"
-                  autoFocus
-                />
-              </div>
-
-              <div className="flex gap-2 justify-end pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsSettingUpDemo(false)}
-                  className="text-xs font-semibold px-3 py-2 text-gray-500 hover:text-gray-700 cursor-pointer"
-                >
-                  Retour
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (customNameInput.trim()) {
-                      triggerDemoMode(customNameInput.trim());
-                    } else {
-                      triggerDemoMode("Simon Deboeuf");
-                    }
-                  }}
-                  className="text-xs font-semibold px-4 py-2 bg-black text-white hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
-                >
-                  Commencer
-                </button>
-              </div>
-            </div>
-          )}
-
-          <div className="border-t border-gray-100 pt-6 flex justify-between items-center text-[10px] text-gray-400 font-sans">
-            <span className="flex items-center gap-1">
-              🛡️ Isolation absolue des données
-            </span>
-            <span>Optimisé mobile & tablette</span>
           </div>
         </div>
       </div>
